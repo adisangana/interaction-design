@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Exercise 9: Click Event</title>
+    <link href="../resources/reset.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width">
+    <style>
+        body {
+            text-align: center;
+        }
+
+        button {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+
+        div {
+            width: 200px;
+            height: 200px;
+            display: inline-block;
+            margin: 10px;
+            opacity: 0;
+        }
+
+        #div1 {
+            background: #264c89;
+        }
+
+        #div2 {
+            background: #388967;
+        }
+
+        #div3 {
+            background: #41bfc4;
+        }
+
+        h1 {
+            font-size: 6em;
+            opacity: 0;
+        }
+
+        h2 {
+            position: relative;
+            left: -300px;
+            opacity: 0;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <button id="start-button">Start Animation</button>
+    <h1>Exercise 9: Click Event</h1>
+    <h2>Example subheading</h2>
+    <div id="div1"></div>
+    <div id="div2"></div>
+    <div id="div3"></div>
+
+    <script>
+        function go() {
+            $("h1").animate(
+                {
+                    opacity: 1,
+                    fontSize: "2em"
+                },
+                1000,
+                "swing",
+                function () {
+                    $("h2").delay(750).animate(
+                        {
+                            opacity: 1,
+                            left: "0px"
+                        },
+                        1000,
+                        "swing",
+                        function () {
+                            $("#div1").delay(250).animate({ opacity: 1 }, 750);
+                            $("#div2").delay(500).animate({ opacity: 1 }, 750);
+                            $("#div3").delay(750).animate({ opacity: 1 }, 750);
+                        }
+                    );
+                }
+            );
+        }
+
+        $(document).ready(function () {
+            $("#start-button").click(go);
+        });
+    </script>
+</body>
+</html>

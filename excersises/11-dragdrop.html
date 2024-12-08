@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 11 - Drag and Drop</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <style>
+        /* Space background */
+        #space {
+            width: 800px;
+            height: 400px;
+            background: url('../resources/wormhole.jpg') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            margin: 20px auto;
+            border: 2px solid black;
+        }
+
+        /* Blackhole */
+        #blackhole {
+            width: 400px;
+            height: 300px;
+            background: rgba(0, 255, 0, 0.4); /* Semi-transparent green */
+            position: absolute;
+            top: 50px;
+            right: 100px;
+            border-radius: 50%;
+        }
+
+        /* TARDIS */
+        #tardis {
+            width: 200px;
+            height: 200px;
+            background: url('../resources/tardis.png') no-repeat center center;
+            background-size: contain;
+            position: absolute;
+            top: 100px;
+            left: 50px;
+            cursor: grab;
+        }
+
+        /* Animation when entering the black hole */
+        .animated {
+            animation: spin 3s ease-out forwards;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+            100% {
+                transform: scale(0.01) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Exercise 11 - Drag and Drop</h1>
+    <div id="space">
+        <div id="blackhole"></div>
+        <div id="tardis"></div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            // Make the TARDIS draggable
+            $("#tardis").draggable();
+
+            // Make the blackhole a droppable target
+            $("#blackhole").droppable({
+                drop: function (event, ui) {
+                    // Call the function when the TARDIS enters the black hole
+                    enterBlackHole();
+                }
+            });
+
+            function enterBlackHole() {
+                // Add the spin animation
+                $("#tardis").addClass("animated");
+
+                // Move the TARDIS to the center of the black hole
+                $("#tardis").animate(
+                    {
+                        top: "175px", // Vertically center
+                        left: "500px", // Horizontally center
+                    },
+                    1000, // Animation duration
+                    "easeOutQuad" // Easing
+                );
+            }
+        });
+    </script>
+</body>
+</html>

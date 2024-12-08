@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Exercise 14 - Mars</title>
+    <script src="../resources/jquery.min.js"></script>
+    <script src="../resources/jquery.easing.min.js"></script>
+    <script src="../resources/skrollr.min.js"></script>
+    <link rel="stylesheet" href="../resources/mars.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        section {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Intro Section */
+        #screen1 {
+            background: linear-gradient(to bottom, #f06d06, #ffb76b);
+        }
+
+        #mars {
+            width: 100%;
+            height: 40%;
+            background: url("../resources/mars-horizon.png") top center no-repeat;
+            background-size: cover;
+            position: absolute;
+            top: 200px; /* Starting position */
+        }
+
+        #sun {
+            position: absolute;
+            top: 100px;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            margin-left: -100px;
+            background: radial-gradient(circle, white, rgba(255, 255, 0, 0));
+            border-radius: 50%;
+        }
+
+        #shine {
+            position: absolute;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin-left: -10px;
+            opacity: 0; /* Initial state */
+            background: radial-gradient(circle, white, rgba(255, 255, 0, 0));
+            border-radius: 50%;
+        }
+
+        /* Exploration Section */
+        #screen2 {
+            background: url("../resources/mars-surface.jpg") no-repeat center center;
+            background-size: cover;
+        }
+
+        #screen2 .info {
+            width: 70%;
+            margin: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+        }
+
+        /* Viking Section */
+        #screen3 {
+            background: linear-gradient(to bottom, #551a8b, #2b2b70);
+        }
+
+        #viking {
+            max-width: 40%;
+            position: absolute;
+            left: 15%;
+            top: -200px;
+        }
+
+        #screen3 .info {
+            width: 70%;
+            margin: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            position: relative;
+            right: -100%;
+        }
+
+        /* Rovers Section */
+        #screen4 {
+            background: url("../resources/opportunity.png") no-repeat center center;
+            background-size: cover;
+        }
+
+        #screen4 .info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Navigation Dots */
+        nav {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav li {
+            width: 10px;
+            height: 10px;
+            background: gray;
+            margin: 10px 0;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        nav li.active {
+            background: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li class="active" data-screen="#screen1"></li>
+            <li data-screen="#screen2"></li>
+            <li data-screen="#screen3"></li>
+            <li data-screen="#screen4"></li>
+        </ul>
+    </nav>
+
+    <!-- Sections -->
+    <div id="skrollr-body">
+        <!-- Screen 1 -->
+        <section id="screen1">
+            <h1>Red Planet</h1>
+            <div id="sun" class="light"></div>
+            <div id="mars" data-top="transform: translateY(0px);" data-top-bottom="transform: translateY(-500px);"></div>
+            <div id="shine" class="light" data-top="transform: translateX(0px);" data-top-bottom="transform: translateX(1000px);"></div>
+        </section>
+
+        <!-- Screen 2 -->
+        <section id="screen2">
+            <h2>Exploration of Mars</h2>
+            <div class="info" data-top="transform: translateY(0px);" data-bottom="transform: translateY(-500px);">
+                <img src="../resources/mars.png" alt="Mars">
+                <p>The exploration of Mars has taken place over hundreds of years...</p>
+            </div>
+        </section>
+
+        <!-- Screen 3 -->
+        <section id="screen3">
+            <h2>Viking Lander</h2>
+            <div class="info" data-top="right: -100%;" data-top-bottom="right: 0%;">
+                The Viking 1 lander touched down on the surface of Mars on July 20, 1976...
+            </div>
+            <img id="viking" src="../resources/viking.png" alt="Viking Lander" data-anchor-target="#screen3"
+                data-top="top: -200px;" data-top-bottom="top: 100px;">
+        </section>
+
+        <!-- Screen 4 -->
+        <section id="screen4">
+            <h2>Mars Rovers</h2>
+            <div class="info">
+                Launched in 2003, Opportunity landed on Mars...
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Skrollr Initialization
+        var s = skrollr.init({
+            mobileCheck: function () {
+                return false; // Disable mobile checking
+            }
+        });
+
+        // Navigation Scroll
+        $("nav li").click(function () {
+            var destination = $($(this).data("screen")).offset().top;
+            $("html, body").animate({ scrollTop: destination }, 1000, "easeOutCubic");
+        });
+
+        // Update Active Nav Dot
+        $(window).scroll(function () {
+            var activeIndex = Math.round($(document).scrollTop() / $(window).height()) + 1;
+            $("nav li").removeClass("active");
+            $("nav li:nth-child(" + activeIndex + ")").addClass("active");
+        });
+    </script>
+</body>
+
+</html>

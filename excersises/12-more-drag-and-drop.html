@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 12: Drag & Drop</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #ddd 0%, #777 100%);
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        figure {
+            background: url('../resources/modelX.png') no-repeat;
+            max-width: 750px;
+            height: 330px;
+            margin: 0 auto 2em auto;
+            background-size: contain;
+            position: relative;
+        }
+
+        figcaption {
+            font-size: 2em;
+            color: #444;
+        }
+
+        ul {
+            background: #989898;
+            padding: 15px 30px 10px 30px;
+            display: inline-block;
+            border-radius: 100px;
+            box-shadow: 3px 3px 8px #222 inset, -1px -1px 0px #fff inset;
+        }
+
+        li {
+            list-style: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            box-shadow: 3px 3px 4px #fff inset, -3px -3px 4px #222 inset;
+            display: inline-block;
+            margin: 0 6px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        #Titanium {
+            background-color: #d4d4d4;
+        }
+
+        #Blue {
+            background-color: #001f9e;
+        }
+
+        #Dolphin {
+            background-color: #96d1d9;
+        }
+
+        #Pearl {
+            background-color: #f8f4f4;
+        }
+
+        #Black {
+            background-color: #111111;
+        }
+
+        #Red {
+            background-color: #d90000;
+        }
+
+        #Orange {
+            background-color: #ff8000;
+        }
+
+        .active {
+            border: 4px solid white;
+        }
+
+        .paint {
+            fill: #d4d4d4; /* Default color */
+            mix-blend-mode: color;
+            opacity: 0.7; /* Adjust transparency */
+            transition: fill 0.3s ease, opacity 0.3s ease; /* Smooth transition */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Exercise 12: Drag & Drop</h1>
+
+    <figure>
+        <!-- Car color overlay -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 330">
+            <path class="paint" d="M0,0 L750,0 L750,330 L0,330 Z"></path> <!-- Adjusted SVG path -->
+        </svg>
+        <figcaption>Titanium</figcaption>
+    </figure>
+
+    <ul>
+        <li id="Titanium"></li>
+        <li id="Blue"></li>
+        <li id="Dolphin"></li>
+        <li id="Pearl"></li>
+        <li id="Black"></li>
+        <li id="Red"></li>
+        <li id="Orange"></li>
+    </ul>
+
+    <script>
+        $(document).ready(function () {
+            let selectedColor = "#d4d4d4"; // Default color
+            let colorName = "Titanium";
+
+            // Make swatches draggable
+            $("li").draggable({
+                revert: true,
+                revertDuration: 200,
+                opacity: 0.7,
+            });
+
+            // Make the car droppable
+            $("figure").droppable({
+                drop: function (event, ui) {
+                    repaint(ui.draggable.attr("id"));
+                },
+            });
+
+            function repaint(color) {
+                // Get the swatch's color
+                selectedColor = $("#" + color).css("background-color");
+
+                // Update SVG overlay color
+                $(".paint").css("fill", selectedColor);
+
+                // Highlight the active swatch
+                $("li").removeClass("active");
+                $("#" + color).addClass("active");
+
+                // Update the caption
+                colorName = color;
+                $("figcaption").text(colorName);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -39,6 +39,7 @@
         }
 
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     
 
 </head>
@@ -61,6 +62,36 @@
     </table>
     <script>
         //your JavaScript goes here
+        function toggleSwitch() {
+            const switchElement = $("#switch"); // Select the toggle switch
+            const leftPosition = parseInt(switchElement.css("left")); // Get the current 'left' value
+
+            if (leftPosition === 1) {
+                // If the switch is OFF, turn it ON
+                switchElement.animate({ left: "31px" }, 300, turnOn);
+            } else {
+                // If the switch is ON, turn it OFF
+                switchElement.animate({ left: "1px" }, 300, turnOff);
+            }
+        }
+
+        function turnOn() {
+            $("#label_on").css("color", "green"); // Highlight the ON label
+            $("#label_off").css("color", "#bbb"); // Dim the OFF label
+            $("#toggle").css("background", "lightgreen"); // Change the background color
+        }
+
+        function turnOff() {
+            $("#label_on").css("color", "#bbb"); // Dim the ON label
+            $("#label_off").css("color", "red"); // Highlight the OFF label
+            $("#toggle").css("background", "#A0A0A0"); // Reset the background color
+        }
+
+        // Attach the click event to the switch
+        $(document).ready(function () {
+            $("#switch").click(toggleSwitch);
+        });
+
 
     </script>
 </body>
