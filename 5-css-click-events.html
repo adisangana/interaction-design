@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Exercise 5 - CSS Click Events</title>
+<link href="../resources/reset.css" rel="stylesheet"/>
+<meta name="viewport" content="width=device-width">
+    <style>
+        /* Style the label */
+        label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        label:hover {
+            background-color: #45a049;
+        }
+
+        /* Style the div */
+        .box {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            text-align: center;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Change the box when checkbox is checked */
+        input[type="checkbox"]:checked ~ .box {
+            background-color: #4CAF50;
+            color: white;
+        }
+        /* Style the figure and image */
+        figure {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #zoom {
+            width: 150px;
+            transition: all 1s ease-in-out;
+        }
+
+        /* Zoom in effect */
+        #zoom:target {
+            width: 400px;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Exercise 5: CSS Click Events</h1>
+<input type="checkbox" id="toggle" hidden>
+<label for="toggle">Click me!</label>
+<div class="box">[object being changed]</div>
+<figure id="zoomout">
+    <img src="https://loremflickr.com/400/300" alt="Random Image" id="zoom">
+    <figcaption>
+        <a href="#zoom">zoom in</a> | <a href="#zoomout">zoom out</a>
+    </figcaption>
+</figure>
+</body>
+</html>
